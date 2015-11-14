@@ -6,12 +6,12 @@ window.onload = function(){
   var cWidth = 48;
   var cSize = '.2rem';
   var gridStr = '';
-  var paintBox = document.getElementById('mainColors');
-  var colorPicker = document.getElementById('colorPicker');
-  var playerColors = document.getElementById('playerColors');
-  var colorDisplay = document.getElementById('colorDisplay');
-
+  var paintBox = document.getElementById('mainColors'); //Main Display
+  var colorPicker = document.getElementById('colorPicker'); //Color Gradient
+  var playerColors = document.getElementById('playerColors'); //Player Color Buttons
+  var colorDisplay = document.getElementById('colorDisplay'); //Selected Color Display
   var currColor = 'red';
+// Player 1 init
   var loc = {
     box:document.getElementsByClassName('box 0-0'),
     name:'Player 1',
@@ -19,6 +19,7 @@ window.onload = function(){
     y:0,
     color:'#961717'
   };
+// Player 2 init
   var loc2 ={
     box:document.getElementsByClassName('box 23-47'),
     name:'Player 2',
@@ -27,6 +28,9 @@ window.onload = function(){
     color:'#179683'
   };
 
+/*******
+Build Main Display
+*******/
   for(var i = 0; i < height; i++)
   {
     gridStr += '<div class="row'+ i +'">';
@@ -37,6 +41,9 @@ window.onload = function(){
   }
   paintBox.innerHTML = gridStr;
 
+/*******
+Build Color Gradient Picker
+*******/
   gridStr = '';
   var inv = cHeight;
   for(var i = 0; i < cHeight; i++)
@@ -54,6 +61,9 @@ window.onload = function(){
   }
   colorPicker.innerHTML = gridStr;
 
+/*******
+Set Main Display Color if Clicked
+*******/
   paintBox.addEventListener('click', function(event){
     var tar = event.target;
     if(tar.className.substring(0,3) == 'box'){
@@ -61,12 +71,19 @@ window.onload = function(){
     }
   });
 
+/*******
+Select a Color From the Gradient
+*******/
   colorPicker.addEventListener('click', function(event){
     var tar = event.target;
     if(tar.className.substring(0,4) == 'cbox')
       currColor = tar.style.backgroundColor;
       colorDisplay.style.backgroundColor = currColor;
   });
+
+/*******
+Allow Players to Pick Colors
+*******/
   playerColors.addEventListener('click', function(event){
     var tar = event.target;
     console.log(tar);
@@ -87,6 +104,11 @@ window.onload = function(){
       }
   });
 
+/*******
+Main Game Event Handler for Key press
+Player 1: W,A,S,D
+Player 2: I,J,K,L
+*******/
   window.addEventListener('keypress', function(event){
     var press = String.fromCharCode(event.charCode);
     var locString = '';
@@ -119,8 +141,8 @@ window.onload = function(){
         alert(currLoc.name + " Hit a wall and LOSES!");
       }
       currLoc.box[0].style.backgroundColor = currColor;
-      }
-    if((press ==='a' || press ==='j') && y != '0'){
+    }
+    else if((press ==='a' || press ==='j') && y != '0'){
       y = y - 1;
       boxStr = 'box '+x+'-'+y;
       currLoc.box = document.getElementsByClassName(boxStr);
@@ -130,7 +152,7 @@ window.onload = function(){
       }
       currLoc.box[0].style.backgroundColor = currColor;
     }
-    if((press ==='s' || press ==='k') && x < height-1){
+    else if((press ==='s' || press ==='k') && x < height-1){
       x = x + 1;
       boxStr = 'box '+x+'-'+y;
       currLoc.box = document.getElementsByClassName(boxStr);
@@ -141,7 +163,7 @@ window.onload = function(){
       }
       currLoc.box[0].style.backgroundColor = currColor;
     }
-    if((press ==='d' || press ==='l') && y < width-1){
+    else if((press ==='d' || press ==='l') && y < width-1){
       y = y + 1;
       boxStr = 'box '+x+'-'+y;
       currLoc.box = document.getElementsByClassName(boxStr);
@@ -153,6 +175,9 @@ window.onload = function(){
     }
   });
 
+/*******
+Collect Player Names
+*******/
   function getNames()
   {
     var person = prompt("Player 1, Enter Your Name!", "Player 1");
@@ -163,7 +188,8 @@ window.onload = function(){
     document.getElementById('p2Btn').innerText = loc2.name;
   }
 
-
-
+/*******
+Run Main Functions?
+*******/
   getNames();
 };
