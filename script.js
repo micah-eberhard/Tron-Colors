@@ -17,7 +17,8 @@ window.onload = function(){
     name:'Player 1',
     x:0,
     y:0,
-    color:'#961717'
+    color:'#961717',
+    currDir:'s'
   };
 // Player 2 init
   var loc2 ={
@@ -25,7 +26,8 @@ window.onload = function(){
     name:'Player 2',
     x:width-1,
     y:height-1,
-    color:'#179683'
+    color:'#179683',
+    currDir:'w'
   };
 
 /*******
@@ -136,6 +138,7 @@ Player 2: I,J,K,L
       x = x - 1;
       boxStr = 'box '+x+'-'+y;
       currLoc.box = document.getElementsByClassName(boxStr);
+      currLoc.currDir = 'w';
       if(currLoc.box[0].style.backgroundColor !== '')
       {
         alert(currLoc.name + " Hit a wall and LOSES!");
@@ -146,6 +149,7 @@ Player 2: I,J,K,L
       y = y - 1;
       boxStr = 'box '+x+'-'+y;
       currLoc.box = document.getElementsByClassName(boxStr);
+      currLoc.currDir = 'a';
       if(currLoc.box[0].style.backgroundColor !== '')
       {
         alert(currLoc.name + " Hit a wall and LOSES!");
@@ -156,6 +160,7 @@ Player 2: I,J,K,L
       x = x + 1;
       boxStr = 'box '+x+'-'+y;
       currLoc.box = document.getElementsByClassName(boxStr);
+      currLoc.currDir = 's';
       console.log(currLoc.box[0].style.backgroundColor);
       if(currLoc.box[0].style.backgroundColor !== '')
       {
@@ -167,6 +172,7 @@ Player 2: I,J,K,L
       y = y + 1;
       boxStr = 'box '+x+'-'+y;
       currLoc.box = document.getElementsByClassName(boxStr);
+      currLoc.currDir = 'd';
       if(currLoc.box[0].style.backgroundColor !== '')
       {
         alert(currLoc.name + " Hit a wall and LOSES!");
@@ -189,7 +195,98 @@ Collect Player Names
   }
 
 /*******
+Interval Event
+*******/
+  function runGame()
+  {
+    var player = '1';
+    setInterval(runMovement(player), 1000);
+    player = '2';
+    setInterval(runMovement(player), 1000);
+  }
+/*******
+Run Constant Movement
+*******/
+  function runMovement(player)
+  {
+    var locString = '';
+    var currLoc = '';
+
+
+    if(player === '2')
+    {
+      locString = loc2.box[0].className.substring(4).split('-');
+      currLoc = loc2;
+      currColor = loc2.color;
+    }
+    else if (player === '1')
+    {
+      currLoc = loc;
+      locString = loc.box[0].className.substring(4).split('-');
+      currColor = loc.color;
+    }
+
+    var press = currLoc.currDir;
+    console.log(press);
+
+    console.log(locString);
+    var x = parseInt(locString[0]);
+    var y = parseInt(locString[1]);
+    console.log(x + ' ' + y);
+    var boxStr = 'box '+x+'-'+y;
+
+    if((press ==='w' || press ==='i') && x != '0'){
+      x = x - 1;
+      boxStr = 'box '+x+'-'+y;
+      currLoc.box = document.getElementsByClassName(boxStr);
+      currLoc.currDir = 'w';
+      if(currLoc.box[0].style.backgroundColor !== '')
+      {
+        alert(currLoc.name + " Hit a wall and LOSES!");
+      }
+      currLoc.box[0].style.backgroundColor = currColor;
+    }
+    else if((press ==='a' || press ==='j') && y != '0'){
+      y = y - 1;
+      boxStr = 'box '+x+'-'+y;
+      currLoc.box = document.getElementsByClassName(boxStr);
+      currLoc.currDir = 'a';
+      if(currLoc.box[0].style.backgroundColor !== '')
+      {
+        alert(currLoc.name + " Hit a wall and LOSES!");
+      }
+      currLoc.box[0].style.backgroundColor = currColor;
+    }
+    else if((press ==='s' || press ==='k') && x < height-1){
+      x = x + 1;
+      boxStr = 'box '+x+'-'+y;
+      currLoc.box = document.getElementsByClassName(boxStr);
+      currLoc.currDir = 's';
+      console.log(currLoc.box[0].style.backgroundColor);
+      if(currLoc.box[0].style.backgroundColor !== '')
+      {
+        alert(currLoc.name + " Hit a wall and LOSES!");
+      }
+      currLoc.box[0].style.backgroundColor = currColor;
+    }
+    else if((press ==='d' || press ==='l') && y < width-1){
+      y = y + 1;
+      boxStr = 'box '+x+'-'+y;
+      currLoc.box = document.getElementsByClassName(boxStr);
+      currLoc.currDir = 'd';
+      if(currLoc.box[0].style.backgroundColor !== '')
+      {
+        alert(currLoc.name + " Hit a wall and LOSES!");
+      }
+      currLoc.box[0].style.backgroundColor = currColor;
+    }
+  }
+
+
+/*******
 Run Main Functions?
 *******/
   getNames();
+  runGame();
+
 };
