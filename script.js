@@ -10,7 +10,9 @@ window.onload = function(){
   var colorPicker = document.getElementById('colorPicker'); //Color Gradient
   var playerColors = document.getElementById('playerColors'); //Player Color Buttons
   var colorDisplay = document.getElementById('colorDisplay'); //Selected Color Display
+  var startBtn = document.getElementById('start'); //Start button - Starts the interval counter
   var currColor = 'red';
+
 // Player 1 init
   var loc = {
     box:document.getElementsByClassName('box 0-0'),
@@ -128,6 +130,8 @@ Player 2: I,J,K,L
       locString = loc.box[0].className.substring(4).split('-');
       currColor = loc.color;
     }
+    currLoc.currDir = press;
+    /*
     console.log(locString);
     var x = parseInt(locString[0]);
     var y = parseInt(locString[1]);
@@ -179,6 +183,7 @@ Player 2: I,J,K,L
       }
       currLoc.box[0].style.backgroundColor = currColor;
     }
+    */
   });
 
 /*******
@@ -200,9 +205,9 @@ Interval Event
   function runGame()
   {
     var player = '1';
-    setInterval(runMovement(player), 1000);
+    runMovement(player);
     player = '2';
-    setInterval(runMovement(player), 1000);
+    runMovement(player);
   }
 /*******
 Run Constant Movement
@@ -242,7 +247,7 @@ Run Constant Movement
       currLoc.currDir = 'w';
       if(currLoc.box[0].style.backgroundColor !== '')
       {
-        alert(currLoc.name + " Hit a wall and LOSES!");
+        endGame(currLoc);
       }
       currLoc.box[0].style.backgroundColor = currColor;
     }
@@ -253,7 +258,7 @@ Run Constant Movement
       currLoc.currDir = 'a';
       if(currLoc.box[0].style.backgroundColor !== '')
       {
-        alert(currLoc.name + " Hit a wall and LOSES!");
+        endGame(currLoc);
       }
       currLoc.box[0].style.backgroundColor = currColor;
     }
@@ -265,7 +270,7 @@ Run Constant Movement
       console.log(currLoc.box[0].style.backgroundColor);
       if(currLoc.box[0].style.backgroundColor !== '')
       {
-        alert(currLoc.name + " Hit a wall and LOSES!");
+        endGame(currLoc);
       }
       currLoc.box[0].style.backgroundColor = currColor;
     }
@@ -276,17 +281,30 @@ Run Constant Movement
       currLoc.currDir = 'd';
       if(currLoc.box[0].style.backgroundColor !== '')
       {
-        alert(currLoc.name + " Hit a wall and LOSES!");
+        endGame(currLoc);
       }
       currLoc.box[0].style.backgroundColor = currColor;
     }
+    console.log("End Movement");
+    return;
   }
 
+  function endGame(currLoc)
+  {
+    alert(currLoc.name + " has hit a wall and LOST");
+    alert("Would you like to play again?");
+    clearInterval();
+  }
 
 /*******
 Run Main Functions?
 *******/
   getNames();
-  runGame();
 
+  startBtn.addEventListener('click', function(event){
+    setInterval(function(){
+    runGame();
+    }, 175);
+  });
+  //setInterval(function(){alert("Oh Hai")}, 3000);
 };
