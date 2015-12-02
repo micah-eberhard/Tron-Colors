@@ -37,11 +37,12 @@ Build Main Display
 *******/
   for(var i = 0; i < height; i++)
   {
-    gridStr += '<div class="row'+ i +'">';
+    gridStr += '<div class="row'+ i +' disRow">';
     for(var j = 0; j < width; j++)
     {
           gridStr += '<div class="box '+ i +'-'+j+'"></div>';
     }
+    gridStr += '</div>';
   }
   paintBox.innerHTML = gridStr;
 
